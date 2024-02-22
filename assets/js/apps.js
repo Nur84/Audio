@@ -16,16 +16,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Tambahkan lagu ke playlist
   function addToPlaylist(files) {
-    files.forEach(function(file) {
+    files.forEach(function (file) {
       playlist.push(file);
-      var li = document.createElement('li');
-      li.textContent = file.name;
+      var li = document.createElement("li");
+      li.textContent = batasiKarakter(file.name, 40);
 
       // Tambahkan tombol hapus dengan ikon "X"
-      var deleteBtn = document.createElement('button');
-      deleteBtn.innerHTML = '&times;';
-      deleteBtn.classList.add('deleteBtn');
-      deleteBtn.addEventListener('click', function(event) {
+      var deleteBtn = document.createElement("button");
+      deleteBtn.innerHTML = "&times;";
+      deleteBtn.classList.add("deleteBtn");
+      deleteBtn.addEventListener("click", function (event) {
         event.stopPropagation(); // Mencegah memainkan audio saat mengklik tombol hapus
         var index = playlist.indexOf(file);
         if (index !== -1) {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       li.appendChild(deleteBtn);
 
-      li.addEventListener('click', function() {
+      li.addEventListener("click", function () {
         loadAndPlayAudio(playlist.indexOf(file));
       });
       playlistItems.appendChild(li);
@@ -65,18 +65,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Highlight file yang sedang diputar
   function highlightCurrentAudio(index) {
-    var playlistItemElements = playlistItems.getElementsByTagName('li');
+    var playlistItemElements = playlistItems.getElementsByTagName("li");
     for (var i = 0; i < playlistItemElements.length; i++) {
       if (i === index) {
-        playlistItemElements[i].classList.add('current');
+        playlistItemElements[i].classList.add("current");
       } else {
-        playlistItemElements[i].classList.remove('current');
+        playlistItemElements[i].classList.remove("current");
       }
     }
   }
 
   // Play atau pause audio
-  playPauseBtn.addEventListener('click', function() {
+  playPauseBtn.addEventListener("click", function () {
     if (audio.paused) {
       audio.play();
       playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
@@ -86,27 +86,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  minimizeBtn.addEventListener('click', function() {
-      
-      audioPlayerContainer.classList.toggle('minimized');
-      cekMinimized();
-      
+  minimizeBtn.addEventListener("click", function () {
+    audioPlayerContainer.classList.toggle("minimized");
+    cekMinimized();
   });
-    function cekMinimized() {
-        const iconWindow = document.getElementById('faWindow');
-        if (audioPlayerContainer.classList.contains('minimized')) {
-            iconWindow.classList.add('fa-window-maximize');
-            iconWindow.classList.remove('fa-window-minimize');
-            // audioPlayer.style.display = "block";
-        } else {
-            iconWindow.classList.remove('fa-window-maximize');
-            iconWindow.classList.add('fa-window-minimize');
-            // audioPlayer.style.display = "none";
-        }
-
+  function cekMinimized() {
+    const iconWindow = document.getElementById("faWindow");
+    if (audioPlayerContainer.classList.contains("minimized")) {
+      iconWindow.classList.add("fa-window-maximize");
+      iconWindow.classList.remove("fa-window-minimize");
+      // audioPlayer.style.display = "block";
+    } else {
+      iconWindow.classList.remove("fa-window-maximize");
+      iconWindow.classList.add("fa-window-minimize");
+      // audioPlayer.style.display = "none";
     }
+  }
   // Memuat dan memainkan file audio yang dipilih
-  fileInput.addEventListener('change', function(e) {
+  fileInput.addEventListener("change", function (e) {
     var files = e.target.files;
     if (files.length === 0) return;
     addToPlaylist(Array.from(files));
@@ -114,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Perbarui progress bar dan posisi pemutaran saat input range diubah
-  progressRange.addEventListener('input', function() {
+  progressRange.addEventListener("input", function () {
     var progress = parseFloat(progressRange.value);
     var duration = audio.duration;
     var newPosition = (progress / 100) * duration;
@@ -122,19 +119,19 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Perbarui progress bar saat audio sedang dimainkan
-  audio.addEventListener('timeupdate', function() {
+  audio.addEventListener("timeupdate", function () {
     var value = (audio.currentTime / audio.duration) * 100;
     progressBar.value = value;
     progressRange.value = value; // Perbarui nilai input range sesuai dengan progres pemutaran
   });
 
   // Ketika file selesai diputar, putar file berikutnya
-  audio.addEventListener('ended', function() {
+  audio.addEventListener("ended", function () {
     playNextAudio();
   });
 
   // Tombol Previous
-  prevBtn.addEventListener('click', function() {
+  prevBtn.addEventListener("click", function () {
     var prevIndex = currentIndex - 1;
     if (prevIndex < 0) {
       prevIndex = playlist.length - 1;
@@ -143,12 +140,12 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Tombol Next
-  nextBtn.addEventListener('click', function() {
+  nextBtn.addEventListener("click", function () {
     playNextAudio();
   });
 
   // Tombol Mute
-  muteBtn.addEventListener('click', function() {
+  muteBtn.addEventListener("click", function () {
     audio.muted = !audio.muted;
     if (audio.muted) {
       muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
@@ -157,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  volumeRange.addEventListener('input', function() {
+  volumeRange.addEventListener("input", function () {
     audio.volume = parseFloat(volumeRange.value);
     if (audio.volume === 0) {
       audio.muted = true;
@@ -175,6 +172,14 @@ document.addEventListener('DOMContentLoaded', function () {
       nextIndex = 0; // Kembali ke awal jika sudah di akhir daftar putar
     }
     loadAndPlayAudio(nextIndex);
+  }
+
+  function batasiKarakter(string, jumlahKarakter) {
+    if (string.length <= jumlahKarakter) {
+      return string;
+    } else {
+      return string.substring(0, jumlahKarakter) + "...";
+    }
   }
 
 });
