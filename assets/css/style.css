@@ -104,6 +104,12 @@
 #audioPlayerContainer.minimized {
   height: 50px; /* Atur tinggi untuk mode minimize */
 }
+#audioPlayerContainer.minimized #audioplayer {
+  visibility: hidden;
+}
+#audioPlayerContainer.maximized #audioplayer {
+  visibility:  visible;
+}
 
 /* Style untuk input range */
 #progressRange {
