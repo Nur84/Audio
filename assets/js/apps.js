@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
     audio.src = URL.createObjectURL(file);
     audio.load();
     audio.play();
-    playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+    playPauseBtn.innerHTML = '<i class="fa-solid fa-pause  fa-2x"></i>';
     highlightCurrentAudio(index);
   }
 
@@ -79,10 +79,10 @@ document.addEventListener('DOMContentLoaded', function () {
   playPauseBtn.addEventListener("click", function () {
     if (audio.paused) {
       audio.play();
-      playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+      playPauseBtn.innerHTML = '<i class="fa-solid fa-pause  fa-2x"></i>';
     } else {
       audio.pause();
-      playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+      playPauseBtn.innerHTML = '<i class="fa-solid fa-play  fa-2x"></i>';
     }
   });
 
